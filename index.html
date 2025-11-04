@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>ربات ECO - چت ناشناس</title>
+  <meta name="description" content="ربات ECO - چت ناشناس و امن با طراحی مدرن" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { color-scheme: dark; scroll-behavior: smooth; }
+    body {
+      background: linear-gradient(to bottom, #000000 0%, #0a0a0a 50%, #000000 100%); /* بک‌گراند تاریک‌تر و مشکی‌تر */
+      overflow-x: hidden;
+      overflow-y: auto;
+      font-family: 'Vazir', sans-serif;
+      -webkit-overflow-scrolling: touch;
+      position: relative;
+    }
+
+    /* سایه برای متن‌ها به رنگ خودشون */
+    .text-slate-300 {
+      text-shadow: 0 0 8px rgba(148, 163, 184, 0.3);
+    }
+    .text-slate-400 {
+      text-shadow: 0 0 6px rgba(148, 163, 184, 0.2);
+    }
+    .text-slate-500 {
+      text-shadow: 0 0 4px rgba(107, 114, 128, 0.2);
+    }
+    .text-white {
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    }
+
+    .glass { 
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005)); 
+      backdrop-filter: blur(20px); 
+      border: 1px solid rgba(255,255,255,0.05); 
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(79, 70, 229, 0.1);
+    }
+
+    /* انیمیشن مدرن برای متن */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* cursor for typewriter */
+    .typewriter::after {
+      content: '|';
+      animation: blink 0.75s step-end infinite;
+      margin-left: -2px;
+    }
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    .stagger {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: staggerIn 0.8s ease forwards;
+    }
+    .stagger:nth-child(1) { animation-delay: 0.2s; }
+    .stagger:nth-child(2) { animation-delay: 0.4s; }
+    .stagger:nth-child(3) { animation-delay: 0.6s; }
+    @keyframes staggerIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .glass:hover {
+      transform: translateY(-4px) scale(1.02);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.6), 0 0 30px rgba(79, 70, 229, 0.2);
+    }
+
+    .btn {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); /* سایه برای متن دکمه‌ها */
+    }
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    .btn:active::before {
+      width: 300px;
+      height: 300px;
+    }
+    .btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 15px 35px -10px rgba(79, 70, 229, 0.6), 0 0 20px rgba(79, 70, 229, 0.3);
+      background: linear-gradient(135deg, #4f46e5, #0891b2, #7c3aed);
+      animation: pulse 2s infinite;
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.4); /* سایه قوی‌تر در hover */
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+    }
+
+    a:not(.btn) {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    a:not(.btn):hover {
+      color: #a5b4fc;
+      transform: translateX(-2px);
+      text-shadow: 0 0 10px rgba(165, 180, 252, 0.5);
+    }
+
+    section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      min-height: 100vh;
+      padding: 2rem;
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 10;
+    }
+
+    article {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    article:hover {
+      transform: translateY(-8px) rotateX(5deg);
+      box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.7), 0 0 20px rgba(79, 70, 229, 0.2);
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Vazir:wght@300;400;500;600;700&display=swap');
+  </style>
+</head>
+<body class="antialiased text-slate-300 relative">
+
+  <header class="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between relative z-10">
+    <a href="#" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-800 to-cyan-700 flex items-center justify-center text-white font-bold shadow-lg">E</div>
+      <div class="text-sm font-semibold">ECO</div>
+    </a>
+    <nav class="flex items-center gap-4 text-sm">
+      <a href="#about" class="hover:underline transition-colors">درباره</a>
+      <a href="#features" class="hover:underline transition-colors">قابلیت‌ها</a>
+      <a href="#" id="startBtn" class="btn bg-gradient-to-r from-indigo-800 to-cyan-700 text-white px-4 py-2 rounded-md shadow-lg">شروع</a>
+    </nav>
+  </header>
+
+  <main class="relative z-10">
+    <section id="hero" class="fade-in-up">
+      <h1 class="text-5xl font-extrabold mb-6 bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent typewriter stagger">ربات چت ناشناس <span class="text-indigo-400">ECO</span></h1>
+      <p class="text-slate-400 text-lg max-w-xl mb-8 leading-relaxed typewriter stagger" style="animation-delay: 1s;">چت ناشناس، امن و ساده — صحبت کن بدون اینکه هویتت لو بره.</p>
+      <div class="flex flex-col md:flex-row gap-4 stagger" style="animation-delay: 2s;">
+        <a href="#" id="installBtn" class="btn bg-gradient-to-r from-indigo-800 to-cyan-700 text-white px-6 py-3 rounded-lg font-semibold shadow-lg">چنل روبیکا</a>
+        <a href="#about" class="border border-slate-700/50 px-6 py-3 rounded-lg hover:bg-slate-900/50 transition-all">بیشتر ببین</a>
+      </div>
+    </section>
+
+    <section id="about" class="fade-in-up">
+      <div class="glass rounded-2xl p-8 shadow-lg max-w-3xl">
+        <h2 class="text-3xl font-bold mb-4 typewriter stagger">درباره ECO</h2>
+        <p class="text-slate-400 leading-relaxed typewriter stagger">ECO یک ربات چت ناشناس است که برای گفتگو بدون افشای هویت طراحی شده؛ مناسب گفتگوهای خصوصی و گروهی.</p>
+      </div>
+    </section>
+
+    <section id="features" class="fade-in-up">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl px-6">
+        <article class="glass rounded-xl p-6 shadow-lg">
+          <h3 class="font-semibold mb-2 text-xl typewriter stagger">اتوماسیون</h3>
+          <p class="text-slate-400 text-sm typewriter stagger">چت ناشناس ECO از سرعت بالای حین ارسال پیام و ... برخوردار است </p>
+        </article>
+        <article class="glass rounded-xl p-6 shadow-lg">
+          <h3 class="font-semibold mb-2 text-xl typewriter stagger">امنیت</h3>
+          <p class="text-slate-400 text-sm typewriter stagger">چت ناشناس ECO اطلاعات کاربران را در دیتابیس امن نگهداری میشود و هیچ گونه افشا نمیشود</p>
+        </article>
+        <article class="glass rounded-xl p-6 shadow-lg">
+          <h3 class="font-semibold mb-2 text-xl typewriter stagger">پشتیبانی</h3>
+          <p class="text-slate-400 text-sm typewriter stagger">چت ناشناس ECO دارای پشتیبانی24 ساعته است و آماده به پاسخگویی به شما هستند</p>
+        </article>
+      </div>
+    </section>
+
+    <footer class="py-8 text-center text-slate-500 text-sm">© همه حقوق برای شما محفوظ است.</footer>
+  </main>
+
+  <script>
+    // JS Typewriter function for RTL support
+    function typeWriter(element, text, speed = 100) {
+      let i = 0;
+      element.innerHTML = '';
+      function type() {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        } else {
+          // Remove cursor after typing
+          setTimeout(() => {
+            element.classList.remove('typewriter');
+          }, 1000);
+        }
+      }
+      type();
+    }
+
+    // انیمیشن دوطرفه + typewriter JS
+    const fadeEls = document.querySelectorAll('.fade-in-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { 
+          entry.target.classList.add('visible');
+          const typewriters = entry.target.querySelectorAll('.typewriter');
+          typewriters.forEach((el, index) => {
+            setTimeout(() => {
+              const originalText = el.getAttribute('data-text') || el.textContent;
+              typeWriter(el, originalText, 80);
+            }, index * 500);
+          });
+        } else { 
+          entry.target.classList.remove('visible');
+        }
+      });
+    }, { threshold: 0.3 });
+    fadeEls.forEach(el => observer.observe(el));
+
+    // Add data-text to typewriter elements
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.typewriter').forEach(el => {
+        el.setAttribute('data-text', el.textContent);
+        el.textContent = ''; // Clear initial text for typing effect
+      });
+    });
+
+    // دکمه‌ها
+    document.getElementById('startBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'rubika://l.rubika.ir/ECOchatbot?start=1';
+    });
+    document.getElementById('installBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'rubika://l.rubika.ir/CANEL_ECO_BOT';
+    });
+  </script>
+</body>
+</html>
