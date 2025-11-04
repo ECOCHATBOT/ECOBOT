@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>ربات ECO - چت ناشناس</title>
+  <meta name="description" content="ربات ECO - چت ناشناس و امن با طراحی مدرن و انیمیشن نرم" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { color-scheme: dark; scroll-behavior: smooth; }
+    body {
+      background: 
+        radial-gradient(ellipse at bottom, #1b1b2e 0%, #000000 70%),
+        radial-gradient(ellipse at top, #16213e 0%, transparent 50%),
+        linear-gradient(to bottom, #0f0c29 0%, #302b63 50%, #24243e 100%); /* گرادیان کهکشانی برای عمق */
+      overflow-x: hidden;
+      overflow-y: auto;
+      font-family: 'Vazir', sans-serif;
+      -webkit-overflow-scrolling: touch;
+      position: relative;
+    }
+
+    /* لایه کهکشان: ستاره‌های چشمک‌زن با رنگ‌های متنوع */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      animation: twinkle 3s infinite alternate ease-in-out;
+      box-shadow: 0 0 5px currentColor; /* glow برای ستاره‌ها */
+    }
+    .star::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      background: inherit;
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      animation: pulse 2s infinite;
+      opacity: 0.5;
+    }
+    @keyframes twinkle {
+      0% { opacity: 0.4; transform: scale(0.8) rotate(0deg); }
+      100% { opacity: 1; transform: scale(1.3) rotate(180deg); }
+    }
+    @keyframes pulse {
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+    }
+
+    /* ستاره‌های لایه‌ای: نزدیک و دور */
+    .stars-layer1 .star { animation-duration: 2s; } /* ستاره‌های نزدیک: سریع‌تر */
+    .stars-layer2 .star { animation-duration: 4s; } /* ستاره‌های دور: کندتر */
+
+    /* شهاب‌سنگ‌های پیشرفته: مسیر منحنی، دنباله طولانی‌تر، جهت‌های متنوع */
+    .shooting-star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: radial-gradient(circle, white 0%, transparent 70%);
+      border-radius: 50%;
+      box-shadow: 0 0 15px white, 0 0 25px #4f46e5;
+      animation: shoot 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+      pointer-events: none;
+    }
+    .shooting-star::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -150px; /* دنباله طولانی‌تر */
+      width: 150px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), rgba(79, 70, 229, 0.6), transparent);
+      border-radius: 50%;
+      transform: rotate(-45deg);
+      opacity: 0.7;
+    }
+    .shooting-star::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle, #4f46e5 0%, transparent 70%);
+      border-radius: 50%;
+      animation: glow 1s ease-out infinite alternate;
+    }
+    @keyframes shoot {
+      0% {
+        transform: translateX(100vw) translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(-200px) translateY(-100vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+    @keyframes glow {
+      0% { box-shadow: 0 0 5px #4f46e5; }
+      100% { box-shadow: 0 0 20px #4f46e5, 0 0 30px #4f46e5; }
+    }
+
+    /* جهت‌های مختلف برای شهاب‌سنگ */
+    .shooting-star.dir-left { animation-name: shoot-left; }
+    @keyframes shoot-left {
+      0% { transform: translateX(-100px) translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateX(100vw) translateY(-100vh) rotate(-45deg); opacity: 0; }
+    }
+    .shooting-star.dir-down { animation-name: shoot-down; }
+    @keyframes shoot-down {
+      0% { transform: translateX(0) translateY(-100px) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateX(100vw) translateY(100vh) rotate(90deg); opacity: 0; }
+    }
+
+    .glass { 
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005)); 
+      backdrop-filter: blur(20px); 
+      border: 1px solid rgba(255,255,255,0.05); 
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(79, 70, 229, 0.1);
+    }
+
+    /* blobهای نئبولایی: رنگ‌های کهکشانی */
+    .blob { 
+      position: absolute; 
+      filter: blur(120px); /* بلور بیشتر */
+      opacity: 0.05; 
+      z-index: 2;
+      animation: nebulaFloat 30s ease-in-out infinite;
+    }
+    .blob--1 { 
+      width: 600px; 
+      height: 600px; 
+      right: -150px; 
+      top: -150px; 
+      background: linear-gradient(135deg, #4f46e5, #0891b2, #1d4ed8, #7c3aed, #ec4899); 
+    }
+    .blob--2 { 
+      width: 500px; 
+      height: 500px; 
+      left: -150px; 
+      bottom: -150px; 
+      background: linear-gradient(135deg, #000000, #0f0f0f, #1a1a1a, #24243e); 
+    }
+    .blob--3 { 
+      width: 400px; 
+      height: 400px; 
+      left: 10%; 
+      top: 30%; 
+      background: linear-gradient(135deg, #be185d, #d97706, #ec4899, #a855f7); 
+      opacity: 0.03;
+      animation-delay: -15s;
+    }
+    .blob--4 { 
+      width: 350px; 
+      height: 350px; 
+      right: 20%; 
+      bottom: 20%; 
+      background: linear-gradient(135deg, #06b6d4, #3b82f6, #1d4ed8); 
+      opacity: 0.04;
+      animation-delay: -20s;
+    }
+
+    @keyframes nebulaFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+      33% { transform: translateY(-10px) rotate(120deg) scale(1.05); }
+      66% { transform: translateY(10px) rotate(240deg) scale(0.95); }
+    }
+
+    /* انیمیشن مدرن برای متن */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* cursor for typewriter */
+    .typewriter::after {
+      content: '|';
+      animation: blink 0.75s step-end infinite;
+      margin-left: -2px;
+    }
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    .stagger {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: staggerIn 0.8s ease forwards;
+    }
+    .stagger:nth-child(1) { animation-delay: 0.2s; }
+    .stagger:nth-child(2) { animation-delay: 0.4s; }
+    .stagger:nth-child(3) { animation-delay: 0.6s; }
+    @keyframes staggerIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .glass:hover {
+      transform: translateY(-4px) scale(1.02);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.6), 0 0 30px rgba(79, 70, 229, 0.2);
+    }
+
+    .btn {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    .btn:active::before {
+      width: 300px;
+      height: 300px;
+    }
+    .btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 15px 35px -10px rgba(79, 70, 229, 0.6), 0 0 20px rgba(79, 70, 229, 0.3);
+      background: linear-gradient(135deg, #4f46e5, #0891b2, #7c3aed);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+    }
+
+    a:not(.btn) {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    a:not(.btn):hover {
+      color: #a5b4fc;
+      transform: translateX(-2px);
+      text-shadow: 0 0 10px rgba(165, 180, 252, 0.5);
+    }
+
+    section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      min-height: 100vh;
+      padding: 2rem;
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 10;
+    }
+
+    article {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    article:hover {
+      transform: translateY(-8px) rotateX(5deg);
+      box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.7), 0 0 20px rgba(79, 70, 229, 0.2);
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Vazir:wght@300;400;500;600;700&display=swap');
+  </style>
+</head>
+<body class="antialiased text-slate-300 relative">
+  <!-- کهکشان: لایه‌های ستاره -->
+  <div class="stars stars-layer1" id="stars1"></div>
+  <div class="stars stars-layer2" id="stars2"></div>
+
+  <!-- blobهای نئبولایی -->
+  <div class="blob blob--1"></div>
+  <div class="blob blob--2"></div>
+  <div class="blob blob--3"></div>
+  <div class="blob blob--4"></div>
+
+  <header class="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between relative z-10">
+    <a href="#" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-800 to-cyan-700 flex items-center justify-center text-white font-bold shadow-lg">E</div>
+      <div class="text-sm font-semibold">ECO</div>
+    </a>
+    <nav class="flex items-center gap-4 text-sm">
+      <a href="#about" class="hover:underline transition-colors">درباره</a>
+      <a href="#features" class="hover:underline transition-colors">قابلیت‌ها</a>
+      <a href="#" id="startBtn" class="btn bg-gradient-to-r from-indigo-800 to-cyan-700 text-white px-4 py-2 rounded-md shadow-lg">شروع</a>
+    </nav>
+  </header>
+
+  <main class="relative z-10">
+    <section id="hero" class="fade-in-up">
+      <h1 class="text-5xl font-extrabold mb-6 bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent typewriter stagger">ربات چت ناشناس <span class="text-indigo-400">ECO</span></h1>
+      <p class="text-slate-400 text-lg max-w-xl mb-8 leading-relaxed typewriter stagger" style="animation-delay: 1s;">چت ناشناس، امن و ساده — صحبت کن بدون اینکه هویتت لو بره.</p>
+      <div class="flex flex-col md:flex-row gap-4 stagger" style="animation-delay: 2s;">
+        <a href="#" id="installBtn" class="btn bg-gradient-to-r from-indigo-800 to-cyan-700 text-white px-6 py-3 rounded-lg font-semibold shadow-lg">چنل روبیکا</a>
+        <a href="#about" class="border border-slate-700/50 px-6 py-3 rounded-lg hover:bg-slate-900/50 transition-all">بیشتر ببین</a>
+      </div>
+    </section>
+
+    <section id="about" class="fade-in-up">
+      <div class="glass rounded-2xl p-8 shadow-lg max-w-3xl">
+        <h2 class="text-3xl font-bold mb-4 typewriter stagger">درباره ECO</h2>
+        <p class="text-slate-400 leading-relaxed typewriter stagger">ECO یک ربات چت ناشناس است که برای گفتگو بدون افشای هویت طراحی شده؛ مناسب گفتگوهای خصوصی و گروهی.</p>
+      </div>
+    </section>
+
+    <section id="features" class="fade-in-up">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl px-6">
+        <article class="glass rounded-xl p-6 shadow-lg">
+          <h3 class="font-semibold mb-2 text-xl typewriter stagger">اتوماسیون</h3>
+          <p class="text-slate-400 text-sm typewriter stagger">چت ناشناس ECO از سرعت بالای حین ارسال پیام و ... برخوردار است </p>
+        </article>
+        <article class="glass rounded-xl p-6 shadow-lg">
+          <h3 class="font-semibold mb-2 text-xl typewriter stagger">امنیت</h3>
+          <p class="text-slate-400 text-sm typewriter stagger">چت ناشناس ECO اطلاعات کاربران را در دیتابیس امن نگهداری میشود و هیچ گونه افشا نمیشود</p>
+        </article>
+        <article class="glass rounded-xl p-6 shadow-lg">
+          <h3 class="font-semibold mb-2 text-xl typewriter stagger">پشتیبانی</h3>
+          <p class="text-slate-400 text-sm typewriter stagger">چت ناشناس ECO دارای پشتیبانی24 ساعته است و آماده به پاسخگویی به شما هستند</p>
+        </article>
+      </div>
+    </section>
+
+    <footer class="py-8 text-center text-slate-500 text-sm">© همه حقوق برای شما محفوظ است.</footer>
+  </main>
+
+  <script>
+    // JS Typewriter function for RTL support
+    function typeWriter(element, text, speed = 100) {
+      let i = 0;
+      element.innerHTML = '';
+      function type() {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        } else {
+          // Remove cursor after typing
+          setTimeout(() => {
+            element.classList.remove('typewriter');
+          }, 1000);
+        }
+      }
+      type();
+    }
+
+    // ایجاد ستاره‌های لایه‌ای: 300 ستاره در لایه 1، 200 در لایه 2
+    function createStars(containerId, count, colors) {
+      const container = document.getElementById(containerId);
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        const size = Math.random() * 3 + 0.5;
+        star.style.width = star.style.height = size + 'px';
+        star.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        star.style.animationDelay = Math.random() * 3 + 's';
+        star.style.animationDuration = (Math.random() * 2 + 2) + 's'; // تنوع سرعت
+        container.appendChild(star);
+      }
+    }
+    createStars('stars1', 300, ['#ffffff', '#a5b4fc', '#c4b5fd']); // سفید، آبی روشن، بنفش
+    createStars('stars2', 200, ['#e2e8f0', '#94a3b8', '#64748b']); // خاکستری‌های نرم برای عمق
+
+    // شهاب‌سنگ‌های پیشرفته: هر 2-5 ثانیه، جهت تصادفی
+    function createShootingStar() {
+      const directions = ['default', 'dir-left', 'dir-down'];
+      const star = document.createElement('div');
+      star.className = `shooting-star ${directions[Math.floor(Math.random() * directions.length)]}`;
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 30 + '%'; // از بالا شروع
+      star.style.animationDelay = Math.random() * 1 + 's';
+      star.style.animationDuration = (Math.random() * 2 + 3) + 's'; // تنوع سرعت
+      document.getElementById('stars1').appendChild(star);
+      setTimeout(() => star.remove(), 5000);
+    }
+    setInterval(createShootingStar, 2000 + Math.random() * 3000); // هر 2-5 ثانیه
+
+    // انیمیشن دوطرفه + typewriter JS
+    const fadeEls = document.querySelectorAll('.fade-in-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { 
+          entry.target.classList.add('visible');
+          const typewriters = entry.target.querySelectorAll('.typewriter');
+          typewriters.forEach((el, index) => {
+            setTimeout(() => {
+              const originalText = el.getAttribute('data-text') || el.textContent;
+              typeWriter(el, originalText, 80);
+            }, index * 500);
+          });
+        } else { 
+          entry.target.classList.remove('visible');
+        }
+      });
+    }, { threshold: 0.3 });
+    fadeEls.forEach(el => observer.observe(el));
+
+    // Add data-text to typewriter elements
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.typewriter').forEach(el => {
+        el.setAttribute('data-text', el.textContent);
+        el.textContent = ''; // Clear initial text for typing effect
+      });
+    });
+
+    // دکمه‌ها
+    document.getElementById('startBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'rubika://l.rubika.ir/ECOchatbot?start=1';
+    });
+    document.getElementById('installBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'rubika://l.rubika.ir/CANEL_ECO_BOT';
+    });
+  </script>
+</body>
+</html>
